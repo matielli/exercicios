@@ -1,0 +1,19 @@
+class RelatorioPDF(FPDF):
+    def header(self):
+        self.set_font('Arial', 'B', 12)
+        self.cell(0, 10, 'Relatório de Custos por Departamento', 0, 1, 'C')
+
+    def chapter_title(self, title):
+        self.set_font('Arial', 'B', 12)
+        self.cell(0, 10, title, 0, 1, 'L')
+
+    def chapter_body(self, body):
+        self.set_font('Arial', '', 12)
+        self.multi_cell(0, 10, body)
+
+def gerar_grafico(custos_por_departamento):
+    labels = custos_por_departamento.keys()
+    valores = custos_por_departamento.values()
+    plt.pie(valores, labels=labels, autopct='%1.1f%%')
+    plt.title('Custos por Departamento')
+    plt.savefig('grafico.png')

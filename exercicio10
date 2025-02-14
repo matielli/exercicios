@@ -1,0 +1,7 @@
+class MainWindow(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.geometry("1024x768")
+        self.gerenciador = GerenciadorJanelas(self)
+        self.gerenciador.adicionar_frame("Login", LoginFrame)
+        self.gerenciador.mostrar_frame("Login")

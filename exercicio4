@@ -1,0 +1,22 @@
+import tkinter as tk
+from tkinter import ttk
+class FormularioBase(tk.Frame):
+    def __init__(self, master, campos):
+        super().__init__(master)
+        self.campos = campos
+        self.entradas = {}
+        self.gerar_formulario()
+
+    def gerar_formulario(self):
+        for idx, campo in enumerate(self.campos):
+            label = tk.Label(self, text=campo['label'])
+            label.grid(row=idx, column=0)
+            if campo['tipo'] == 'entry':
+                entrada = tk.Entry(self)
+            elif campo['tipo'] == 'combobox':
+                entrada = ttk.Combobox(self, values=campo['opcoes'])
+            entrada.grid(row=idx, column=1)
+            self.entradas[campo['label']] = entrada
+
+    def validar(self):
+        raise NotImplementedError("Método validar() deve ser implementado nas subclasses")

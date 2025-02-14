@@ -1,0 +1,8 @@
+class SistemaLogin:
+    def __init__(self, db):
+        self.db = db
+
+    def autenticar(self, usuario, senha):
+        query = "SELECT * FROM Usuarios WHERE usuario=%s AND senha=%s"
+        result = self.db.executar_consulta(query, (usuario, senha))
+        return result

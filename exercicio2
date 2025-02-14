@@ -1,0 +1,47 @@
+import mysql.connector
+from tkinter import messagebox
+
+class GerenciadorBancoDados:
+    def conectar(self):
+        try:
+            return mysql.connector.connect(host='localhost', user='root', password='', database='gestao_pessoal')
+        except mysql.connector.Error as e:
+            messagebox.showerror("Erro no Banco", f"Falha ao conectar: {e}")
+
+    def executar_consulta(self, query, params=None):
+        try:
+            conexao = self.conectar()
+            cursor = conexao.cursor(dictionary=True)
+            cursor.execute(query, params or ())
+            resultado = cursor.fetchall()
+            cursor.close()
+            conexao.close()
+            return resultado
+        except mysql.connector.Error as e:
+            messagebox.showerror("Erro no Banco", f"Falha na consulta: {e}")
+
+    def executar_comando(self, query, params=None):
+        try:
+            conexao = self.conectar()
+            cursor = conexao.cursor()
+            cursor.execute(query, params or ())
+            conexao.commit()
+            cursor.close()
+            conexao.close()
+        except mysql.connector.Error as e:
+            conexao.rollback()
+            messagebox.showerror("Erro no Banco", f"Falha no comando: {e}")
+
+    def iniciar_transacao(self):
+        self.conexao = self.conectar()
+        self.cursor = self.conexao.cursor()
+
+    def confirmar_transacao(self):
+        self.conexao.commit()
+        self.cursor.close()
+        self.conexao.close()
+
+    def reverter_transacao(self):
+        self.conexao.rollback()
+        self.cursor.close()
+        self.conexao.close()

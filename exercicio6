@@ -1,0 +1,11 @@
+class ContratoBase:
+    def __init__(self, salario):
+        self.salario = salario
+
+class ContratoCLT(ContratoBase):
+    def calcular_multa(self):
+        return self.salario * 0.4
+
+class ContratoPJ(ContratoBase):
+    def calcular_multa(self):
+        return self.salario * 0.1
